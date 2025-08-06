@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatGPT clone</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h3 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #userInput {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      margin-bottom: 10px;
+    }
+
+    #userInput:focus {
+      border-color: #007bff;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #response {
+      margin-top: 20px;
+      width: 80%;
+      max-width: 600px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #444;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h3>Ask Anything</h3>
+
+  <input type="text" id="userInput" placeholder="Type your question" />
+  <button onclick="askChatGPT()">Ask</button>
+
+  <div id="response"></div>
+
+  <script>
+    async function askChatGPT() {
+      const input = document.getElementById("userInput").value;
+      const output = document.getElementById("response");
+
+      output.innerText = "Thinking...";
+
+      try {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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" // Replace with your actual key
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: input }],
+            temperature: 0.7
+          })
+        });
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          output.innerText = `Error ${res.status}: ${errorText}`;
+          return;
+        }
+
+        const data = await res.json();
+
+        if (data.choices && data.choices.length > 0) {
+          output.innerText = data.choices[0].message.content;
+        } else {
+          output.innerText = "No response from ChatGPT.";
+        }
+      } catch (err) {
+        console.error(err);
+        output.innerText = "Something went wrong!";
+      }
+    }
+  </script>
+</body>
+</html>
