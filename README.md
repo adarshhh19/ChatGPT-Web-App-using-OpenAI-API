@@ -1,5 +1,5 @@
 💬 AI based chatbot
-A frontend-only AI-powered chatbot built using OpenAI’s GPT model. This minimal yet elegant web app allows users to interact with an intelligent assistant in real time — no backend or frameworks required
+A frontend-only AI-powered chatbot built using OpenAI’s GPT model. This minimal yet elegant web app allows users to interact with an intelligent assistant in real time — no backend or frameworks required.
 
 🧠 Features
 💬 Chat with AI using natural language
